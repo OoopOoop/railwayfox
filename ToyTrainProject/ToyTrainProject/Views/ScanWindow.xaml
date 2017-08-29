@@ -5,8 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ToyTrainProject"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        DataContext="{Binding ScanWindowViewModel,
+                            Source={StaticResource Locator}}"
+        Title="ScanWindow"
+        Height="Auto" 
+        Width="Auto">
     <Grid>
-        
+        <Button Content="TestBtn" Command="{Binding TestClickCommand}" Width="100" Height="40"/>
     </Grid>
 </Window>
