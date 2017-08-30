@@ -10,7 +10,29 @@
         Title="ScanWindow"
         Height="Auto" 
         Width="Auto">
-    <Grid>
-        <Button Content="TestBtn" Command="{Binding TestClickCommand}" Width="100" Height="40"/>
+    <Grid Margin="30">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="40*"/>
+            <ColumnDefinition Width="40*"/>
+            <ColumnDefinition Width="20*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="70*"/>
+            <RowDefinition Height="30*"/>
+        </Grid.RowDefinitions>
+        <Button
+            Grid.Column="0"
+            Grid.Row="1"
+            Content="Take picture"
+            Command="{Binding TestClickCommand}"
+            Width="100"
+            Height="40"/>
+        <Button
+            Grid.Column="1"
+            Grid.Row="1"
+            Content="Submit"
+            Command="{Binding TestClickCommand}"
+            Width="100"
+            Height="40"/>
     </Grid>
 </Window>
