@@ -5,12 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ToyTrainProject"
         mc:Ignorable="d"
-        DataContext="{Binding ScanWindowViewModel,
-                            Source={StaticResource Locator}}"
         Title="ScanWindow"
         Height="Auto" 
-        Width="Auto">
-    <Grid Margin="30">
+        Width="Auto"
+    DataContext="{Binding ScanWindowViewModel,
+                            Source={StaticResource Locator}}">
+    <Grid Margin="30" Background="AliceBlue">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="40*"/>
             <ColumnDefinition Width="40*"/>
@@ -34,5 +34,6 @@
             Command="{Binding TestClickCommand}"
             Width="100"
             Height="40"/>
+        <local:Webcam Grid.Column="0" Grid.Row="0"/>
     </Grid>
 </Window>
