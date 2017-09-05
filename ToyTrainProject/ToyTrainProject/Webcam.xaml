@@ -4,13 +4,11 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ToyTrainProject"
-             mc:Ignorable="d" 
+             mc:Ignorable="d"
+             x:Name="Test"
              d:DesignHeight="300" d:DesignWidth="300">
+
     <Grid>
-        <StackPanel>
-            <Image x:Name="videoWindow" Width="45" Height="60"/>
-         
-            <Button x:Name="TakePicButton" Content="Take pic" Click="TakePicButton_Click"/>
-        </StackPanel>     
+        <Image Source="{Binding Path=VideoSource,Mode=TwoWay}" Height="80" Width="100" />
     </Grid>
 </UserControl>

@@ -10,6 +10,7 @@
         Width="Auto"
     DataContext="{Binding ScanWindowViewModel,
                             Source={StaticResource Locator}}">
+    
     <Grid Margin="30" Background="AliceBlue">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="40*"/>
@@ -34,6 +35,6 @@
             Command="{Binding TestClickCommand}"
             Width="100"
             Height="40"/>
-        <local:Webcam Grid.Column="0" Grid.Row="0"/>
+        <local:Webcam Grid.Column="0" Grid.Row="0"  VideoSource="{Binding Path=VideoSourcee,Mode=TwoWay}" />
     </Grid>
 </Window>

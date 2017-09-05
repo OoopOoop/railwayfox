@@ -18,12 +18,10 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using ToyTrainProject.ViewModels;
 
 namespace ToyTrainProject
 {
-    /// <summary>
-    /// Interaction logic for UserControl1.xaml
-    /// </summary>
     public partial class Webcam : UserControl
     {
         private BitmapImage latestFrame;
@@ -31,12 +29,26 @@ namespace ToyTrainProject
         public FilterInfoCollection LocalWebCamsCollection;
         Action<BitmapImage> captureImage;
 
+
+        public static readonly DependencyProperty VideoSourceProperty = DependencyProperty.Register("VideoSource", typeof(ImageSource), typeof(Webcam), new PropertyMetadata(SnapshotBitmapPropertyChangedCallback));
+
+        public ImageSource VideoSource
+        {
+            get { return (ImageSource)GetValue(VideoSourceProperty); }
+            set { SetValue(VideoSourceProperty, value); }
+        }
+        
         public Webcam()
         {
             InitializeComponent();
 
             Loaded += CameraWindow_Loaded;
             Unloaded += CameraWindow_Unloaded;
+        }
+
+        private static void SnapshotBitmapPropertyChangedCallback(DependencyObject sender, DependencyPropertyChangedEventArgs eventArgs)
+        {
+            //// NOTE: Created to make the dependency property bindable from view-model.
         }
 
         void Cam_NewFrame(object sender, NewFrameEventArgs eventArgs)
@@ -55,7 +67,8 @@ namespace ToyTrainProject
                 this.latestFrame = bi;
                 Dispatcher.BeginInvoke(new ThreadStart(delegate
                 {
-                    videoWindow.Source = bi;
+                    //videoWindow.Source = bi;
+                    VideoSource = bi;
                 }));
             }
             catch (Exception ex)
