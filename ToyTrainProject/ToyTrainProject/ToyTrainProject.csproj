@@ -98,16 +98,19 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Webcam.xaml.cs">
+    <Compile Include="Converters\DeviceConverter.cs" />
+    <Compile Include="Models\DeviceInfo.cs" />
+    <Compile Include="Controls\Webcam.xaml.cs">
       <DependentUpon>Webcam.xaml</DependentUpon>
     </Compile>
-    <Page Include="Webcam.xaml">
+    <Page Include="Controls\Webcam.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -156,9 +159,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Models\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">
       <Visible>False</Visible>

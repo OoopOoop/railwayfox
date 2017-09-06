@@ -4,14 +4,19 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ToyTrainProject"
+        xmlns:converter="clr-namespace:ToyTrainProject.Converters"
+        xmlns:controls="clr-namespace:ToyTrainProject.Controls"
         mc:Ignorable="d"
         Title="ScanWindow"
         Height="Auto" 
         Width="Auto"
-    DataContext="{Binding ScanWindowViewModel,
+        DataContext="{Binding ScanWindowViewModel,
                             Source={StaticResource Locator}}">
-    
-    <Grid Margin="30" Background="AliceBlue">
+    <Window.Resources>
+        <converter:DeviceInfoConverter x:Key="DeviceInfoConverter"/>
+    </Window.Resources>
+
+    <Grid Margin="30">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="40*"/>
             <ColumnDefinition Width="40*"/>
@@ -21,6 +26,12 @@
             <RowDefinition Height="70*"/>
             <RowDefinition Height="30*"/>
         </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" >
+            <ComboBox x:Name="ComboBox"  Margin="10" ItemsSource="{Binding AvailableCameraSources,ElementName=WebCam}" DisplayMemberPath="DisplayName" SelectedItem="{Binding SelectedDevice}"/>
+            <controls:Webcam x:Name="WebCam" CameraId="{Binding SelectedItem, Converter={StaticResource DeviceInfoConverter}, ElementName=ComboBox}"/>
+        </StackPanel>
+
         <Button
             Grid.Column="0"
             Grid.Row="1"
@@ -35,6 +46,6 @@
             Command="{Binding TestClickCommand}"
             Width="100"
             Height="40"/>
-        <local:Webcam Grid.Column="0" Grid.Row="0"  VideoSource="{Binding Path=VideoSourcee,Mode=TwoWay}" />
+       
     </Grid>
 </Window>
