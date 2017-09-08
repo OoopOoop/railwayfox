@@ -14,20 +14,68 @@ namespace ToyTrainProject.Controls
     public partial class Webcam : UserControl
     {
         private static List<DeviceInfo> availableCameraSources;
-        private static RelayCommand takeinternalPictureCommand;
         private static Webcam host;
         private static VideoCaptureDevice videoDevice;
+
+        public static readonly DependencyProperty SnapshotBitmapProperty =
+            DependencyProperty.Register(
+                "SnapshotBitmap",
+                typeof(Bitmap),
+                typeof(Webcam),
+                new PropertyMetadata(SnapshotBitmapPropertyChangedCallback));
+        
+        public readonly DependencyProperty TakePictureCommandProperty =
+            DependencyProperty.Register(
+                "TakePictureCommand",
+                typeof(ICommand),
+                typeof(Webcam),
+                new PropertyMetadata(null));
+
+        public static readonly DependencyProperty AvailableCameraSourcesProperty =
+            DependencyProperty.Register(
+                "AvailableCameraSources",
+                typeof(IList<DeviceInfo>),
+                typeof(Webcam),
+                new PropertyMetadata(GetCameraSources()));
+
+        public static readonly DependencyProperty CameraIdProperty =
+            DependencyProperty.Register(
+                "CameraId",
+                typeof(string),
+                typeof(Webcam),
+                new PropertyMetadata(string.Empty, OnCameraValueChanged, OnCameraCoherceValueChanged));
+
+        public ICommand TakePictureCommand
+        {
+            get => (ICommand)this.GetValue(TakePictureCommandProperty);
+            set => this.SetValue(TakePictureCommandProperty, value);
+        }
+
+        public Bitmap SnapshotBitmap
+        {
+            get => (Bitmap)this.GetValue(SnapshotBitmapProperty);
+            set => SetValue(SnapshotBitmapProperty, value);
+        }
+
+        public IList<FilterInfo> AvailableCameraSources
+        {
+            get => (IList<FilterInfo>)this.GetValue(AvailableCameraSourcesProperty);
+            set => SetValue(AvailableCameraSourcesProperty, value);
+        }
+
+        public string CameraId
+        {
+            get => (string)this.GetValue(CameraIdProperty);
+            set => SetValue(CameraIdProperty, value);
+        }
+
 
         public Webcam()
         {
             this.InitializeComponent();
+            TakePictureCommand= new RelayCommand(TakePicture);
         }
-
-        private static void OnTakePictureCommandChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e)
-        {
-            host = (Webcam)dependencyObject;
-        }
-
+        
         private static object OnCameraCoherceValueChanged(DependencyObject dependencyObject, object basevalue)
         {
             host = (Webcam)dependencyObject;
@@ -50,8 +98,7 @@ namespace ToyTrainProject.Controls
 
             return basevalue;
         }
-
-
+        
         private static void OnCameraValueChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e)
         {
             host = (Webcam)dependencyObject;
@@ -61,7 +108,6 @@ namespace ToyTrainProject.Controls
                 StopVideoDevice();
                 return;
             }
-
 
             if (e.NewValue != e.OldValue)
             {
@@ -76,16 +122,8 @@ namespace ToyTrainProject.Controls
                 }
             }
         }
-
-        private static RelayCommand TakeInternalPictureCommand
-        {
-            get
-            {
-                return takeinternalPictureCommand ?? (takeinternalPictureCommand = new RelayCommand(TakePicture));
-            }
-        }
-
-        private static void TakePicture()
+        
+        private void TakePicture()
         {
             try
             {
@@ -96,21 +134,24 @@ namespace ToyTrainProject.Controls
                 System.Drawing.Point pnlPoint =
                     host.VideoPlayer.PointToScreen(
                         new System.Drawing.Point(host.VideoPlayer.ClientRectangle.X, host.VideoPlayer.ClientRectangle.Y)); // get the position of the VideoPlayer
-                using (var bmp = new Bitmap(PanelWidth, PanelHeight))
+                using (var bitmap = new Bitmap(PanelWidth, PanelHeight))
                 {
-                    using (var g = Graphics.FromImage(bmp))
+                    using (var g = Graphics.FromImage(bitmap))
                     {
                         // generate the image
                         g.CopyFromScreen(
                             pnlPoint, System.Drawing.Point.Empty, new System.Drawing.Size(PanelWidth, PanelHeight));
                     }
+                    
+
+                    SnapshotBitmap = new Bitmap(bitmap);
+
 
                     // Get MyPictures folder path
                     fileName = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures) + "\\"
                                + DateTime.Now.ToString().Replace(":", string.Empty).Replace("/", string.Empty) + ".jpg";
-
                     // save the file
-                    bmp.Save(fileName, System.Drawing.Imaging.ImageFormat.Jpeg);
+                    bitmap.Save(fileName, System.Drawing.Imaging.ImageFormat.Jpeg);
                 }
 
                 MessageBox.Show("Picture saved in Pictures library with filename=" + fileName, "Success");
@@ -121,8 +162,6 @@ namespace ToyTrainProject.Controls
                 MessageBox.Show(exception.Message);
             }
         }
-
-
 
         private static void InitVideoDevice(string cameraString, Webcam host)
         {
@@ -136,9 +175,7 @@ namespace ToyTrainProject.Controls
             videoDevice = new VideoCaptureDevice(cameraString) { DesiredFrameSize = new System.Drawing.Size(640, 480) };
             host.VideoPlayer.VideoSource = videoDevice;
             host.VideoPlayer.Start();
-
         }
-
 
         private static void StopVideoDevice()
         {
@@ -153,7 +190,6 @@ namespace ToyTrainProject.Controls
             videoDevice = null;
         }
 
-
         private static IList<DeviceInfo> GetCameraSources()
         {
             availableCameraSources = new List<DeviceInfo>();
@@ -166,46 +202,10 @@ namespace ToyTrainProject.Controls
             return availableCameraSources;
         }
 
-
-        public static readonly DependencyProperty AvailableCameraSourcesProperty =
-            DependencyProperty.Register(
-                "AvailableCameraSources",
-                typeof(IList<DeviceInfo>),
-                typeof(Webcam),
-                new PropertyMetadata(GetCameraSources())); //set the default value 
-
-
-        public static readonly DependencyProperty CameraIdProperty =
-            DependencyProperty.Register("CameraId", typeof(string), typeof(Webcam), new PropertyMetadata(string.Empty, OnCameraValueChanged, OnCameraCoherceValueChanged));
-
-
-        public static readonly DependencyProperty TakePictureCommandProperty =
-            DependencyProperty.Register(
-                "TakePictureCommand",
-                typeof(ICommand),
-                typeof(Webcam),
-                new PropertyMetadata(TakeInternalPictureCommand));
-
-        public ICommand TakePictureCommand
+        private static void SnapshotBitmapPropertyChangedCallback(DependencyObject sender, DependencyPropertyChangedEventArgs eventArgs)
         {
-            get => (ICommand)this.GetValue(TakePictureCommandProperty);
-
-            set => this.SetValue(TakePictureCommandProperty, value);
+         
         }
-
-
-        public IList<FilterInfo> AvailableCameraSources
-        {
-            get => (IList<FilterInfo>)this.GetValue(AvailableCameraSourcesProperty);
-            set => SetValue(AvailableCameraSourcesProperty, value);
-        }
-
-
-        public string CameraId
-        {
-            get => (string)this.GetValue(CameraIdProperty);
-            set => SetValue(CameraIdProperty, value);
-        }
-
+        
     }
 }

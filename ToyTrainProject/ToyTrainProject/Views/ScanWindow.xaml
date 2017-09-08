@@ -29,21 +29,28 @@
 
         <StackPanel Grid.Row="0" >
             <ComboBox x:Name="ComboBox"  Margin="10" ItemsSource="{Binding AvailableCameraSources,ElementName=WebCam}" DisplayMemberPath="DisplayName" SelectedItem="{Binding SelectedDevice}"/>
-            <controls:Webcam x:Name="WebCam" CameraId="{Binding SelectedItem, Converter={StaticResource DeviceInfoConverter}, ElementName=ComboBox}"/>
+            <controls:Webcam 
+                x:Name="WebCam"
+                SnapshotBitmap="{Binding SnapshotBitmap, Mode=TwoWay}" 
+                CameraId="{Binding SelectedItem, Converter={StaticResource DeviceInfoConverter},
+                ElementName=ComboBox}"/>
         </StackPanel>
 
+        <Image Grid.Row="0" Grid.Column="1" Margin="30" Source="{Binding SnapshotImageSource, Mode=TwoWay}"/>
+        
         <Button
             Grid.Column="0"
             Grid.Row="1"
             Content="Take picture"
-            Command="{Binding TestClickCommand}"
+            Command="{Binding TakePictureCommand, ElementName=WebCam}"
             Width="100"
             Height="40"/>
+        
         <Button
             Grid.Column="1"
             Grid.Row="1"
             Content="Submit"
-            Command="{Binding TestClickCommand}"
+            Command="{Binding TakeSnapShotCommand}"
             Width="100"
             Height="40"/>
        
