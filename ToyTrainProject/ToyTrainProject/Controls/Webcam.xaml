@@ -1,0 +1,17 @@
+﻿<UserControl x:Class="ToyTrainProject.Controls.Webcam"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ToyTrainProject"
+             xmlns:aforge="clr-namespace:AForge.Controls;assembly=AForge.Controls"
+             mc:Ignorable="d">
+    <StackPanel>
+        <WindowsFormsHost  Name="WinFormHost" 
+                           Background="{x:Null}"
+                           Width="500" 
+                           Height="400">
+            <aforge:VideoSourcePlayer x:Name="VideoPlayer" Size="400,500" />
+        </WindowsFormsHost>
+    </StackPanel>
+</UserControl>

@@ -1,0 +1,101 @@
+﻿<Window x:Class="ToyTrainProject.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ToyTrainProject"
+        xmlns:converter="clr-namespace:ToyTrainProject.Converters"
+        xmlns:controls="clr-namespace:ToyTrainProject.Controls"
+        mc:Ignorable="d"
+        Title="ScanWindow"
+        Height="Auto" 
+        Width="Auto"
+        DataContext="{Binding ScanWindowViewModel,
+                            Source={StaticResource Locator}}">
+    <Window.Resources>
+        <converter:DeviceInfoConverter x:Key="DeviceInfoConverter"/>
+    </Window.Resources>
+
+    <Grid Margin="30">
+        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+
+        <Grid Grid.Row="0">
+            <ComboBox x:Name="CameraIdComboBox" 
+                      Width="500" 
+                      Height="30"
+                      HorizontalContentAlignment="Center"
+                      VerticalContentAlignment="Center"
+                      ItemsSource="{Binding AvailableCameraSources,ElementName=WebCam}" 
+                      DisplayMemberPath="DisplayName" 
+                      SelectedItem="{Binding SelectedDevice}"/>
+            <TextBlock Text="Select Camera"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           IsHitTestVisible="False">
+                <TextBlock.Style>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="Visibility" Value="Hidden"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ElementName=CameraIdComboBox,Path=SelectedItem}" Value="{x:Null}">
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
+        </Grid>
+        
+        <controls:Webcam 
+                x:Name="WebCam"
+                Grid.Row="1"
+                SnapshotBitmap="{Binding SnapshotBitmap, Mode=TwoWay}" 
+                CameraId="{Binding SelectedItem, Converter={StaticResource DeviceInfoConverter},
+                ElementName=CameraIdComboBox}"/>
+    
+
+        <Image Grid.Row="1"
+               Grid.Column="1"
+               VerticalAlignment="Top"
+               Margin="10 0 0 0"
+               Source="{Binding SnapshotImageSource, Mode=TwoWay}"/>
+
+        <StackPanel Grid.Column="0"
+                    Grid.Row="2"
+                    VerticalAlignment="Center">
+            <Button
+            Content="Take picture"
+            Command="{Binding TakePictureCommand, ElementName=WebCam}"
+            Width="100"
+            Height="40"/>
+
+            <Button 
+                Content="Take picture duplicate"
+                Command="{Binding TakeSnapShotCommand}"
+                    Width="100"
+                    Height="40"/>
+        </StackPanel>
+
+        <Button
+            Grid.Column="1"
+            Grid.Row="2"
+            Content="Submit"
+            Command="{Binding SubmitSnapShotCommand}"
+            Width="100"
+            Height="40"/>
+        
+        <TextBlock Text="{Binding ResponseText}"
+                   Grid.Column="2"
+                   Grid.Row="0"/>
+  </Grid>
+</Window>
