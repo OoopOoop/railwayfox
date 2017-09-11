@@ -37,22 +37,32 @@
         </StackPanel>
 
         <Image Grid.Row="0" Grid.Column="1" Margin="30" Source="{Binding SnapshotImageSource, Mode=TwoWay}"/>
-        
-        <Button
-            Grid.Column="0"
-            Grid.Row="1"
+
+        <StackPanel Grid.Column="0"
+                    Grid.Row="1">
+            <Button
             Content="Take picture"
             Command="{Binding TakePictureCommand, ElementName=WebCam}"
             Width="100"
             Height="40"/>
-        
+
+            <Button 
+                Content="Take picture duplicate"
+                Command="{Binding TakeSnapShotCommand}"
+                    Width="100"
+                    Height="40"/>
+        </StackPanel>
+
         <Button
             Grid.Column="1"
             Grid.Row="1"
             Content="Submit"
-            Command="{Binding TakeSnapShotCommand}"
+            Command="{Binding SubmitSnapShotCommand}"
             Width="100"
             Height="40"/>
-       
+        
+        <TextBlock Text="{Binding ResponseText}"
+                   Grid.Column="2"
+                   Grid.Row="0"/>
     </Grid>
 </Window>
