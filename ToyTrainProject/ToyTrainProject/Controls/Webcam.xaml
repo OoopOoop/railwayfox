@@ -5,11 +5,13 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ToyTrainProject"
              xmlns:aforge="clr-namespace:AForge.Controls;assembly=AForge.Controls"
-             mc:Ignorable="d"
-             d:DesignHeight="300" d:DesignWidth="300">
+             mc:Ignorable="d">
     <StackPanel>
-        <WindowsFormsHost Margin="10" Name="WinFormHost" Background="{x:Null}" Width="200" Height="200">
-            <aforge:VideoSourcePlayer x:Name="VideoPlayer" Size="640,480" />
+        <WindowsFormsHost  Name="WinFormHost" 
+                           Background="{x:Null}"
+                           Width="500" 
+                           Height="400">
+            <aforge:VideoSourcePlayer x:Name="VideoPlayer" Size="400,500" />
         </WindowsFormsHost>
     </StackPanel>
 </UserControl>

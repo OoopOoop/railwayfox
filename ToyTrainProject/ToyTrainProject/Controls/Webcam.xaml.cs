@@ -127,8 +127,8 @@ namespace ToyTrainProject.Controls
         {
             try
             {
-                const int PanelWidth = 640;
-                const int PanelHeight = 480;
+                const int PanelWidth = 700;
+                const int PanelHeight = 600;
                 string fileName;
 
                 System.Drawing.Point pnlPoint =
@@ -143,7 +143,6 @@ namespace ToyTrainProject.Controls
                             pnlPoint, System.Drawing.Point.Empty, new System.Drawing.Size(PanelWidth, PanelHeight));
                     }
                     
-
                     SnapshotBitmap = new Bitmap(bitmap);
 
 

@@ -17,29 +17,62 @@
     </Window.Resources>
 
     <Grid Margin="30">
+        
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="40*"/>
-            <ColumnDefinition Width="40*"/>
-            <ColumnDefinition Width="20*"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="70*"/>
-            <RowDefinition Height="30*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <StackPanel Grid.Row="0" >
-            <ComboBox x:Name="ComboBox"  Margin="10" ItemsSource="{Binding AvailableCameraSources,ElementName=WebCam}" DisplayMemberPath="DisplayName" SelectedItem="{Binding SelectedDevice}"/>
-            <controls:Webcam 
+
+        <Grid Grid.Row="0">
+            <ComboBox x:Name="CameraIdComboBox" 
+                      Width="500" 
+                      Height="30"
+                      HorizontalContentAlignment="Center"
+                      VerticalContentAlignment="Center"
+                      ItemsSource="{Binding AvailableCameraSources,ElementName=WebCam}" 
+                      DisplayMemberPath="DisplayName" 
+                      SelectedItem="{Binding SelectedDevice}"/>
+            <TextBlock Text="Select Camera"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           IsHitTestVisible="False">
+                <TextBlock.Style>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="Visibility" Value="Hidden"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ElementName=CameraIdComboBox,Path=SelectedItem}" Value="{x:Null}">
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
+        </Grid>
+        
+        <controls:Webcam 
                 x:Name="WebCam"
+                Grid.Row="1"
                 SnapshotBitmap="{Binding SnapshotBitmap, Mode=TwoWay}" 
                 CameraId="{Binding SelectedItem, Converter={StaticResource DeviceInfoConverter},
-                ElementName=ComboBox}"/>
-        </StackPanel>
+                ElementName=CameraIdComboBox}"/>
+    
 
-        <Image Grid.Row="0" Grid.Column="1" Margin="30" Source="{Binding SnapshotImageSource, Mode=TwoWay}"/>
+        <Image Grid.Row="1"
+               Grid.Column="1"
+               VerticalAlignment="Top"
+               Margin="10 0 0 0"
+               Source="{Binding SnapshotImageSource, Mode=TwoWay}"/>
 
         <StackPanel Grid.Column="0"
-                    Grid.Row="1">
+                    Grid.Row="2"
+                    VerticalAlignment="Center">
             <Button
             Content="Take picture"
             Command="{Binding TakePictureCommand, ElementName=WebCam}"
@@ -55,7 +88,7 @@
 
         <Button
             Grid.Column="1"
-            Grid.Row="1"
+            Grid.Row="2"
             Content="Submit"
             Command="{Binding SubmitSnapShotCommand}"
             Width="100"
@@ -64,5 +97,5 @@
         <TextBlock Text="{Binding ResponseText}"
                    Grid.Column="2"
                    Grid.Row="0"/>
-    </Grid>
+  </Grid>
 </Window>
