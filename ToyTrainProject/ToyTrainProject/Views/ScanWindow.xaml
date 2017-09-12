@@ -79,11 +79,11 @@
             Width="100"
             Height="40"/>
 
-            <Button 
+            <!--<Button 
                 Content="Take picture duplicate"
                 Command="{Binding TakeSnapShotCommand}"
                     Width="100"
-                    Height="40"/>
+                    Height="40"/>-->
         </StackPanel>
 
         <Button

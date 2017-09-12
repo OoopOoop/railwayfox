@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
@@ -37,10 +38,7 @@ namespace ToyTrainProject.ViewModels
             get { return _responseText; }
             set { _responseText = value; OnPropertyChanged();}
         }
-        
-        private RelayCommand _takeSnapShotCommand;
-        public RelayCommand TakeSnapShotCommand => _takeSnapShotCommand ?? (_takeSnapShotCommand = new RelayCommand(TakeSnapShot));
-
+  
         private RelayCommand _submitSnapShotCommand;
         public RelayCommand SubmitSnapShotCommand => _submitSnapShotCommand ?? (_submitSnapShotCommand = new RelayCommand(SubmitSnapShot));
         
@@ -50,17 +48,31 @@ namespace ToyTrainProject.ViewModels
             get { return _snapshotImageSource; }
             set { _snapshotImageSource = value; OnPropertyChanged(); }
         }
-
+        
         private Bitmap _snapshotBitmap;
         public Bitmap SnapshotBitmap
         {
             get { return _snapshotBitmap; }
-            set { _snapshotBitmap = value; OnPropertyChanged();}
+            set
+            {
+                if (SetField(ref _snapshotBitmap, value, "SnapshotBitmap"))
+                {
+                    SnapshotImageSource = ConvertToImageSource(SnapshotBitmap);
+                }
+            }
         }
 
         public ScanWindowViewModel()
         {
 
+        }
+
+        protected bool SetField<T>(ref T field, T value, string propertyName)
+        {
+            if (EqualityComparer<T>.Default.Equals(field, value)) return false;
+            field = value;
+            OnPropertyChanged(propertyName);
+            return true;
         }
 
         private  void SubmitSnapShot()
@@ -78,24 +90,28 @@ namespace ToyTrainProject.ViewModels
 
             string uri = UriBase + "?" + requestParameters;
 
-            //byte[] byteData = ImageToByte(SnapshotBitmap);
-            byte[] byteData = GetImageAsByteArray(imageFilePath);
+            if (SnapshotBitmap != null)
+            {
+               
+            byte[] byteData = ImageToByte(SnapshotBitmap);
+            //byte[] byteData = GetImageAsByteArray(imageFilePath);
 
             HttpResponseMessage response;
 
-            using (ByteArrayContent content = new ByteArrayContent(byteData))
-            {
-                // This example uses content type "application/octet-stream".
-                // The other content types you can use are "application/json" and "multipart/form-data".
-                content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
+                using (ByteArrayContent content = new ByteArrayContent(byteData))
+                {
+                    // This example uses content type "application/octet-stream".
+                    // The other content types you can use are "application/json" and "multipart/form-data".
+                    content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
 
-                // Execute the REST API call.
-                response = await client.PostAsync(uri, content);
+                    // Execute the REST API call.
+                    response = await client.PostAsync(uri, content);
 
-                // Get the JSON response.
-                string contentString = await response.Content.ReadAsStringAsync();
-                
-                ResponseText = JsonPrettyPrint(contentString);
+                    // Get the JSON response.
+                    string contentString = await response.Content.ReadAsStringAsync();
+
+                    ResponseText = JsonPrettyPrint(contentString);
+                }
             }        
         }
         
@@ -111,11 +127,6 @@ namespace ToyTrainProject.ViewModels
             FileStream fileStream = new FileStream(imagePath, FileMode.Open, FileAccess.Read);
             BinaryReader binaryReader = new BinaryReader(fileStream);
             return binaryReader.ReadBytes((int)fileStream.Length);
-        }
-       
-        private void TakeSnapShot()
-        {
-            SnapshotImageSource = ConvertToImageSource(SnapshotBitmap);
         }
         
         public static ImageSource ConvertToImageSource(Bitmap bitmap)
