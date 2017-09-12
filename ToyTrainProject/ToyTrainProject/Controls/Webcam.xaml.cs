@@ -127,7 +127,7 @@ namespace ToyTrainProject.Controls
         {
             try
             {
-                const int PanelWidth = 700;
+                const int PanelWidth = 750;
                 const int PanelHeight = 600;
                 string fileName;
 
