@@ -204,7 +204,6 @@ namespace ToyTrainProject.Controls
         private static void SnapshotBitmapPropertyChangedCallback(DependencyObject sender, DependencyPropertyChangedEventArgs eventArgs)
         {
          
-        }
-        
+        }    
     }
 }
