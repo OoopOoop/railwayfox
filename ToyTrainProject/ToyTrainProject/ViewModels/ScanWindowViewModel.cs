@@ -9,13 +9,12 @@ using System.Text;
 using System.Windows.Media;
 using GalaSoft.MvvmLight.Command;
 using ToyTrainProject.Models;
+using static ToyTrainProject.Shared.AppConfiguration;
 
 namespace ToyTrainProject.ViewModels
 {
     public class ScanWindowViewModel:ViewModelBase
     {
-        private const string SubscriptionKey = "";
-        const string UriBase = "";
         private const string TemporaryImagePath = "";
         
         private DeviceInfo _selectedDevice;

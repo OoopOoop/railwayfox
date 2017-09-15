@@ -17,22 +17,28 @@
     </Window.Resources>
 
     <Grid Margin="30">
-        
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-
-
-        <Grid Grid.Row="0">
+        
+        <StackPanel 
+            Grid.Row="0" 
+            Grid.Column="0"
+            Grid.RowSpan="3"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center">
+            <Grid>
             <ComboBox x:Name="CameraIdComboBox" 
-                      Width="500" 
+                      Width="510" 
                       Height="30"
                       HorizontalContentAlignment="Center"
                       VerticalContentAlignment="Center"
@@ -55,47 +61,101 @@
                 </TextBlock.Style>
             </TextBlock>
         </Grid>
-        
-        <controls:Webcam 
+
+            <Border BorderBrush="Black"
+                BorderThickness="5">
+                <Grid>
+                    <controls:Webcam 
                 x:Name="WebCam"
                 Grid.Row="1"
                 SnapshotBitmap="{Binding SnapshotBitmap, Mode=TwoWay}" 
                 CameraId="{Binding SelectedItem, Converter={StaticResource DeviceInfoConverter},
                 ElementName=CameraIdComboBox}"/>
-    
+                </Grid>
+            </Border>
 
-        <Image Grid.Row="1"
-               Grid.Column="1"
-               VerticalAlignment="Top"
-               Margin="10 0 0 0"
-               Source="{Binding SnapshotImageSource, Mode=TwoWay}"/>
-
-        <StackPanel Grid.Column="0"
-                    Grid.Row="2"
-                    VerticalAlignment="Center">
-            <Button
-            Content="Take picture"
+            <Grid Background="Gray">
+                <Button
+                    Width="150"
+                    Height="50"
             Command="{Binding TakePictureCommand, ElementName=WebCam}"
-            Width="100"
-            Height="40"/>
-
-            <!--<Button 
-                Content="Take picture duplicate"
-                Command="{Binding TakeSnapShotCommand}"
-                    Width="100"
-                    Height="40"/>-->
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center">
+                    <StackPanel Orientation="Vertical">
+                        <Image 
+                            Width="100" 
+                            Height="50"
+                            Source="/Resources/camera.png"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
+            </Grid>
         </StackPanel>
 
-        <Button
-            Grid.Column="1"
-            Grid.Row="2"
-            Content="Submit"
-            Command="{Binding SubmitSnapShotCommand}"
-            Width="100"
-            Height="40"/>
-        
-        <TextBlock Text="{Binding ResponseText}"
+        <TextBlock Grid.Column="1" 
+                   Grid.Row="1"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   Text="- - ->"
+                   FontSize="50"/>
+
+        <StackPanel Grid.Row="0"
+                    Grid.Column="2"
+                    Grid.RowSpan="3"
+                    Margin="0 30 0 0"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center">
+            <Border 
+                BorderBrush="Black"
+                BorderThickness="5">
+                <Grid>
+                    <Image Source="{Binding SnapshotImageSource, Mode=TwoWay}" 
+                           Width="500" 
+                           Height="400"/>
+                </Grid>
+            </Border>
+
+            <Grid Background="Gray">
+                <Button  Width="150"
+                         Height="50"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+            Command="{Binding SubmitSnapShotCommand}">
+                    <StackPanel Orientation="Vertical">
+                        <Image
+                            Source="/Resources/upload.png"
+                              Width="100" 
+                              Height="40"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
+            </Grid>
+        </StackPanel>
+
+        <TextBlock Grid.Column="3" 
+                   Grid.Row="1"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   Text="- - ->"
+                   FontSize="50"/>
+
+        <StackPanel Grid.Row="0"
+                    Grid.Column="4"
+                    Grid.RowSpan="3"
+                    Margin="0 30 0 0"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center">
+            <Border 
+                BorderBrush="Black"
+                BorderThickness="5"
+                Width="200"
+                Height="400">
+                <TextBlock Text="{Binding ResponseText}"
                    Grid.Column="2"
                    Grid.Row="0"/>
-  </Grid>
+            </Border>
+        </StackPanel>
+    </Grid>
 </Window>
