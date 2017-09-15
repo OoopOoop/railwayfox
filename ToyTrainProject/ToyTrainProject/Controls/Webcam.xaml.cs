@@ -2,12 +2,15 @@
 using GalaSoft.MvvmLight.Command;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Drawing;
 using System.Linq;
 using System.Windows;
-using System.Windows.Controls;
+using System.Windows.Forms;
 using System.Windows.Input;
 using ToyTrainProject.Models;
+using MessageBox = System.Windows.MessageBox;
+using UserControl = System.Windows.Controls.UserControl;
 
 namespace ToyTrainProject.Controls
 {
@@ -30,7 +33,14 @@ namespace ToyTrainProject.Controls
                 typeof(ICommand),
                 typeof(Webcam),
                 new PropertyMetadata(null));
-
+        
+        public readonly DependencyProperty StartMultipleSnapshotProperty=
+            DependencyProperty.Register(
+                "StartMultipleSnapshot",
+                typeof(ICommand),
+                typeof(Webcam),
+                new PropertyMetadata(null));
+        
         public static readonly DependencyProperty AvailableCameraSourcesProperty =
             DependencyProperty.Register(
                 "AvailableCameraSources",
@@ -44,6 +54,25 @@ namespace ToyTrainProject.Controls
                 typeof(string),
                 typeof(Webcam),
                 new PropertyMetadata(string.Empty, OnCameraValueChanged, OnCameraCoherceValueChanged));
+
+        public static readonly DependencyProperty SelectedTimeProperty=
+            DependencyProperty.Register(
+                "SelectedTime",
+                typeof(string),
+                typeof(Webcam),
+                new PropertyMetadata(string.Empty));
+        
+        public string SelectedTime
+        {
+            get => (string)this.GetValue(SelectedTimeProperty);
+            set => SetValue(SelectedTimeProperty, value);
+        }
+        
+        public ICommand StartMultipleSnapshot
+        {
+            get => (ICommand)this.GetValue(StartMultipleSnapshotProperty);
+            set => this.SetValue(StartMultipleSnapshotProperty, value);
+        }
 
         public ICommand TakePictureCommand
         {
@@ -69,11 +98,12 @@ namespace ToyTrainProject.Controls
             set => SetValue(CameraIdProperty, value);
         }
 
-
         public Webcam()
         {
             this.InitializeComponent();
             TakePictureCommand= new RelayCommand(TakePicture);
+            StartMultipleSnapshot = new RelayCommand(TakeMultiplePicture);
+            ImagesCollection = new List<Bitmap>();
         }
         
         private static object OnCameraCoherceValueChanged(DependencyObject dependencyObject, object basevalue)
@@ -142,10 +172,10 @@ namespace ToyTrainProject.Controls
                         g.CopyFromScreen(
                             pnlPoint, System.Drawing.Point.Empty, new System.Drawing.Size(PanelWidth, PanelHeight));
                     }
+
+                     SnapshotBitmap = new Bitmap(bitmap);
+ 
                     
-                    SnapshotBitmap = new Bitmap(bitmap);
-
-
                     // Get MyPictures folder path
                     fileName = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures) + "\\"
                                + DateTime.Now.ToString().Replace(":", string.Empty).Replace("/", string.Empty) + ".jpg";
@@ -162,9 +192,44 @@ namespace ToyTrainProject.Controls
             }
         }
 
+        private List<Bitmap> _imagesCollection;
+        public List<Bitmap> ImagesCollection
+        {
+            get { return _imagesCollection; }
+            set { _imagesCollection = value; }
+        }
+        
+        private void TakeMultiplePicture()
+        {
+            int miliseconds = Convert.ToInt16(SelectedTime) * 1000;
+            SetTimer(miliseconds);
+        }
+
+        private void SetTimer(int interval)
+        {
+            var _timer =  new Timer();
+
+            _timer.Interval = interval;
+            _timer.Tick += new EventHandler(_timer_Tick);
+            _timer.Enabled = true;
+            _timer.Start();
+            
+        }
+
+        private void _timer_Tick(object sender, EventArgs e)
+        {
+            //this.Dispatcher.Invoke(() =>
+            //    {
+            //        TakePicture();
+            //        ImagesCollection.Add(SnapshotBitmap);
+            //    });
+            
+            TakePicture();
+            ImagesCollection.Add(SnapshotBitmap);
+        }
+
         private static void InitVideoDevice(string cameraString, Webcam host)
         {
-
             if (string.IsNullOrEmpty(cameraString))
             {
                 StopVideoDevice();
@@ -203,8 +268,8 @@ namespace ToyTrainProject.Controls
 
         private static void SnapshotBitmapPropertyChangedCallback(DependencyObject sender, DependencyPropertyChangedEventArgs eventArgs)
         {
-         
+
         }
-        
+
     }
 }
