@@ -13,11 +13,12 @@ using static ToyTrainProject.Shared.AppConfiguration;
 
 namespace ToyTrainProject.ViewModels
 {
-    public class ScanWindowViewModel:ViewModelBase
+    public class ScanWindowViewModel : ViewModelBase
     {
         private const string TemporaryImagePath = "";
-        
+
         private DeviceInfo _selectedDevice;
+
         public DeviceInfo SelectedDevice
         {
             get { return _selectedDevice; }
@@ -25,6 +26,7 @@ namespace ToyTrainProject.ViewModels
         }
 
         private string _cameraUsbId;
+
         public string CameraUsbId
         {
             get { return _cameraUsbId; }
@@ -32,26 +34,30 @@ namespace ToyTrainProject.ViewModels
         }
 
         private string _responseText;
+
         public string ResponseText
         {
             get { return _responseText; }
-            set { _responseText = value; OnPropertyChanged();}
+            set { _responseText = value; OnPropertyChanged(); }
         }
-  
+
         private RelayCommand _submitSnapShotCommand;
         public RelayCommand SubmitSnapShotCommand => _submitSnapShotCommand ?? (_submitSnapShotCommand = new RelayCommand(SubmitSnapShot));
-        
+
         private ImageSource _snapshotImageSource;
+
         public ImageSource SnapshotImageSource
         {
             get { return _snapshotImageSource; }
             set { _snapshotImageSource = value; OnPropertyChanged(); }
         }
-        
+
         private Bitmap _snapshotBitmap;
+
         public Bitmap SnapshotBitmap
         {
             get { return _snapshotBitmap; }
+
             set
             {
                 if (SetField(ref _snapshotBitmap, value, "SnapshotBitmap"))
@@ -63,7 +69,6 @@ namespace ToyTrainProject.ViewModels
 
         public ScanWindowViewModel()
         {
-
         }
 
         protected bool SetField<T>(ref T field, T value, string propertyName)
@@ -74,60 +79,12 @@ namespace ToyTrainProject.ViewModels
             return true;
         }
 
-        private  void SubmitSnapShot()
+        private async void SubmitSnapShot()
         {
-             MakeAnalysisRequest(TemporaryImagePath);
+            var content = await new ComputerVision_AnalyseImage().analyzeImage(SnapshotBitmap);
+            ResponseText = JsonPrettyPrint(content);
         }
-        
-        private async void MakeAnalysisRequest(string imageFilePath)
-        {
-            HttpClient client = new HttpClient();
 
-            client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", SubscriptionKey);
-
-            string requestParameters = "visualFeatures=Categories,Description,Color&language=en";
-
-            string uri = UriBase + "?" + requestParameters;
-
-            if (SnapshotBitmap != null)
-            {
-               
-            byte[] byteData = ImageToByte(SnapshotBitmap);
-            //byte[] byteData = GetImageAsByteArray(imageFilePath);
-
-            HttpResponseMessage response;
-
-                using (ByteArrayContent content = new ByteArrayContent(byteData))
-                {
-                    // This example uses content type "application/octet-stream".
-                    // The other content types you can use are "application/json" and "multipart/form-data".
-                    content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
-
-                    // Execute the REST API call.
-                    response = await client.PostAsync(uri, content);
-
-                    // Get the JSON response.
-                    string contentString = await response.Content.ReadAsStringAsync();
-
-                    ResponseText = JsonPrettyPrint(contentString);
-                }
-            }        
-        }
-        
-        //get data from taken snapshot
-        public static byte[] ImageToByte(Image img)
-        {
-            ImageConverter converter = new ImageConverter();
-            return (byte[])converter.ConvertTo(img, typeof(byte[]));
-        }
-     
-        static byte[] GetImageAsByteArray(string imagePath)
-        {
-            FileStream fileStream = new FileStream(imagePath, FileMode.Open, FileAccess.Read);
-            BinaryReader binaryReader = new BinaryReader(fileStream);
-            return binaryReader.ReadBytes((int)fileStream.Length);
-        }
-        
         public static ImageSource ConvertToImageSource(Bitmap bitmap)
         {
             var imageSourceConverter = new ImageSourceConverter();
@@ -139,7 +96,7 @@ namespace ToyTrainProject.ViewModels
             }
         }
 
-        static string JsonPrettyPrint(string json)
+        private static string JsonPrettyPrint(string json)
         {
             if (string.IsNullOrEmpty(json))
                 return string.Empty;
@@ -159,6 +116,7 @@ namespace ToyTrainProject.ViewModels
                     case '"':
                         if (!ignore) quote = !quote;
                         break;
+
                     case '\'':
                         if (quote) ignore = !ignore;
                         break;
@@ -176,21 +134,25 @@ namespace ToyTrainProject.ViewModels
                             sb.Append(Environment.NewLine);
                             sb.Append(new string(' ', ++offset * indentLength));
                             break;
+
                         case '}':
                         case ']':
                             sb.Append(Environment.NewLine);
                             sb.Append(new string(' ', --offset * indentLength));
                             sb.Append(ch);
                             break;
+
                         case ',':
                             sb.Append(ch);
                             sb.Append(Environment.NewLine);
                             sb.Append(new string(' ', offset * indentLength));
                             break;
+
                         case ':':
                             sb.Append(ch);
                             sb.Append(' ');
                             break;
+
                         default:
                             if (ch != ' ') sb.Append(ch);
                             break;
@@ -202,4 +164,3 @@ namespace ToyTrainProject.ViewModels
         }
     }
 }
-

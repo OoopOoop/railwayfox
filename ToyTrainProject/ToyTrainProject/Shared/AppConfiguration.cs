@@ -2,7 +2,7 @@
 
 namespace ToyTrainProject.Shared
 {
-   public static class AppConfiguration
+    public static class AppConfiguration
     {
         public static string UriBase
         {
@@ -14,6 +14,21 @@ namespace ToyTrainProject.Shared
         {
             get { return ReadSetting("SubscriptionKey"); }
             set { AddUpdateAppSettings("SubscriptionKey", value); }
+        }
+
+        public static class ComputerVisionAPI
+        {
+            public static class AnalyzeImage
+            {
+                public static string visualFeatures => ReadSetting("ComputerVisionAPI.AnalyzeImage.visualFeatures");
+                public static string details => ReadSetting("ComputerVisionAPI.AnalyzeImage.details");
+                public static string language => ReadSetting("ComputerVisionAPI.AnalyzeImage.language");
+            }
+
+            public static class DescribeImage
+            {
+                public static int maxCandidates => int.Parse(ReadSetting("ComputerVisionAPI.DescribeImage.maxCandidates"));
+            }
         }
 
         private static void AddUpdateAppSettings(string key, string value)
