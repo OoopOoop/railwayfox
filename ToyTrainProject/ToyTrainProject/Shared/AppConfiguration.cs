@@ -29,6 +29,12 @@ namespace ToyTrainProject.Shared
             {
                 public static int maxCandidates => int.Parse(ReadSetting("ComputerVisionAPI.DescribeImage.maxCandidates"));
             }
+
+            public static class OCR
+            {
+                public static string language => ReadSetting("ComputerVisionAPI.OCR.language");
+                public static bool detectOrientation => bool.Parse(ReadSetting("ComputerVisionAPI.OCR.detectOrientation"));
+            }
         }
 
         private static void AddUpdateAppSettings(string key, string value)
