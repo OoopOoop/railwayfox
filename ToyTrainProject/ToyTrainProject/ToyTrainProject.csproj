@@ -115,6 +115,7 @@
     <Compile Include="Models\AnalyticsWrapper.cs" />
     <Compile Include="Models\ComputerVision_DescribeImage.cs" />
     <Compile Include="Models\ComputerVision_AnalyseImage.cs" />
+    <Compile Include="Models\ComputerVision_OCR.cs" />
     <Compile Include="Models\DeviceInfo.cs" />
     <Compile Include="Controls\Webcam.xaml.cs">
       <DependentUpon>Webcam.xaml</DependentUpon>
