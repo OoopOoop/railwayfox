@@ -81,7 +81,7 @@ namespace ToyTrainProject.ViewModels
 
         private async void SubmitSnapShot()
         {
-            var content = await new ComputerVision_AnalyseImage().analyzeImage(SnapshotBitmap);
+            var content = await new ComputerVision_AnalyseImage().callService(SnapshotBitmap);
             ResponseText = JsonPrettyPrint(content);
         }
 
