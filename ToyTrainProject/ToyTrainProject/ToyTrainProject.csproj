@@ -123,6 +123,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Models\MaxSizeQueue.cs" />
     <Compile Include="Shared\AppConfiguration.cs" />
     <Compile Include="ViewModels\ScanWindowViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
