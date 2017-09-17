@@ -193,15 +193,7 @@ namespace ToyTrainProject.Controls
                     }
 
                     SnapshotBitmap = new Bitmap(bitmap);
-
-                    // Get MyPictures folder path
-                    fileName = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures) + "\\"
-                               + DateTime.Now.ToString().Replace(":", string.Empty).Replace("/", string.Empty) + ".jpg";
-                    // save the file
-                    bitmap.Save(fileName, System.Drawing.Imaging.ImageFormat.Jpeg);
                 }
-
-                MessageBox.Show("Picture saved in Pictures library with filename=" + fileName, "Success");
             }
             catch (Exception exception)
             {
@@ -235,12 +227,6 @@ namespace ToyTrainProject.Controls
 
         private void _timer_Tick(object sender, EventArgs e)
         {
-            //this.Dispatcher.Invoke(() =>
-            //    {
-            //        TakePicture();
-            //        ImagesCollection.Add(SnapshotBitmap);
-            //    });
-
             TakePicture();
             ImagesCollection.Add(SnapshotBitmap);
         }
