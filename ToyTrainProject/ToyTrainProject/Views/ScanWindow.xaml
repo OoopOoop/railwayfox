@@ -61,7 +61,7 @@
                 </TextBlock>
             </Grid>
 
-            <Label Content="Enter time:" HorizontalAlignment="Center"/>
+            <!--<Label Content="Enter time:" HorizontalAlignment="Center"/>
             <TextBox Text="{Binding SelectedTime, ElementName=WebCam}"/>
 
             <Label Content="Enter interval:" HorizontalAlignment="Center"/>
@@ -69,7 +69,7 @@
 
             <Button Content="Start"
                     Margin="0 30 0 0"
-                    Command="{Binding StartMultipleSnapshot, ElementName=WebCam}"/>
+                    Command="{Binding StartMultipleSnapshot, ElementName=WebCam}"/>-->
         </StackPanel>
 
         <StackPanel 
