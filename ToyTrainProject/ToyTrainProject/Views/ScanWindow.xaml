@@ -16,52 +16,69 @@
         <converter:DeviceInfoConverter x:Key="DeviceInfoConverter"/>
     </Window.Resources>
 
-    <Grid Margin="30">
+    <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        
-        <StackPanel 
-            Grid.Row="0" 
-            Grid.Column="0"
-            Grid.RowSpan="3"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center">
+
+        <StackPanel Grid.Column="0"
+                    Grid.Row="0" 
+                    Grid.RowSpan="3"
+                    Margin="10"
+                    Width="150">
+
             <Grid>
-            <ComboBox x:Name="CameraIdComboBox" 
-                      Width="510" 
-                      Height="30"
-                      HorizontalContentAlignment="Center"
-                      VerticalContentAlignment="Center"
-                      ItemsSource="{Binding AvailableCameraSources,ElementName=WebCam}" 
-                      DisplayMemberPath="DisplayName" 
-                      SelectedItem="{Binding SelectedDevice}"/>
-            <TextBlock Text="Select Camera"
+                <ComboBox x:Name="CameraIdComboBox" 
+                          HorizontalAlignment="Stretch"
+                          Height="30"
+                          HorizontalContentAlignment="Center"
+                          VerticalContentAlignment="Center"
+                          ItemsSource="{Binding AvailableCameraSources,ElementName=WebCam}" 
+                          DisplayMemberPath="DisplayName" 
+                          SelectedItem="{Binding SelectedDevice}"/>
+                <TextBlock Text="Select Camera"
                            HorizontalAlignment="Center"
                            VerticalAlignment="Center"
                            IsHitTestVisible="False">
-                <TextBlock.Style>
-                    <Style TargetType="TextBlock">
-                        <Setter Property="Visibility" Value="Hidden"/>
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding ElementName=CameraIdComboBox,Path=SelectedItem}" Value="{x:Null}">
-                                <Setter Property="Visibility" Value="Visible"/>
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </TextBlock.Style>
-            </TextBlock>
-        </Grid>
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Visibility" Value="Hidden"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ElementName=CameraIdComboBox,Path=SelectedItem}" Value="{x:Null}">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+            </Grid>
 
+            <!--<Label Content="Enter time:" HorizontalAlignment="Center"/>
+            <TextBox Text="{Binding SelectedTime, ElementName=WebCam}"/>
+
+            <Label Content="Enter interval:" HorizontalAlignment="Center"/>
+            <TextBox Text="{Binding SelectedTime, ElementName=WebCam}"/>
+
+            <Button Content="Start"
+                    Margin="0 30 0 0"
+                    Command="{Binding StartMultipleSnapshot, ElementName=WebCam}"/>-->
+        </StackPanel>
+
+        <StackPanel 
+            Grid.Row="0" 
+            Grid.Column="1"
+            Grid.RowSpan="3"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center">
+          
             <Border BorderBrush="Black"
                 BorderThickness="5">
                 <Grid>
@@ -93,17 +110,9 @@
             </Grid>
         </StackPanel>
 
-        <TextBlock Grid.Column="1" 
-                   Grid.Row="1"
-                   HorizontalAlignment="Center"
-                   VerticalAlignment="Center"
-                   Text="- - ->"
-                   FontSize="50"/>
-
         <StackPanel Grid.Row="0"
                     Grid.Column="2"
                     Grid.RowSpan="3"
-                    Margin="0 30 0 0"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center">
             <Border 
@@ -134,15 +143,8 @@
             </Grid>
         </StackPanel>
 
-        <TextBlock Grid.Column="3" 
-                   Grid.Row="1"
-                   HorizontalAlignment="Center"
-                   VerticalAlignment="Center"
-                   Text="- - ->"
-                   FontSize="50"/>
-
         <StackPanel Grid.Row="0"
-                    Grid.Column="4"
+                    Grid.Column="3"
                     Grid.RowSpan="3"
                     Margin="0 30 0 0"
                     HorizontalAlignment="Center"
@@ -152,9 +154,7 @@
                 BorderThickness="5"
                 Width="200"
                 Height="400">
-                <TextBlock Text="{Binding ResponseText}"
-                   Grid.Column="2"
-                   Grid.Row="0"/>
+                <TextBlock Text="{Binding ResponseText}"/>
             </Border>
         </StackPanel>
     </Grid>
