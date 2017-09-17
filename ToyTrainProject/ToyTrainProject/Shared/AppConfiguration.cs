@@ -16,6 +16,18 @@ namespace ToyTrainProject.Shared
             set { AddUpdateAppSettings("SubscriptionKey", value); }
         }
 
+        public static string ImageWidth
+        {
+            get { return ReadSetting("ImageWidth"); }
+            set { AddUpdateAppSettings("ImageWidth", value); }
+        }
+
+        public static string ImageHeight
+        {
+            get { return ReadSetting("ImageHeight"); }
+            set { AddUpdateAppSettings("ImageHeight", value); }
+        }
+
         public static class ComputerVisionAPI
         {
             public static class AnalyzeImage

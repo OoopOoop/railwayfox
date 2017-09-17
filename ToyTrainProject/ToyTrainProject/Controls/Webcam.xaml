@@ -6,12 +6,10 @@
              xmlns:local="clr-namespace:ToyTrainProject"
              xmlns:aforge="clr-namespace:AForge.Controls;assembly=AForge.Controls"
              mc:Ignorable="d">
-    <StackPanel>
-        <WindowsFormsHost  Name="WinFormHost" 
-                           Background="{x:Null}"
-                           Width="500" 
-                           Height="400">
-            <aforge:VideoSourcePlayer x:Name="VideoPlayer" Size="400,500" />
+    <Grid x:Name="MainGrid">
+        <WindowsFormsHost  x:Name="VideoSourceWindowsFormsHost"
+                           Background="{x:Null}">
+            <aforge:VideoSourcePlayer x:Name="VideoPlayer"/>
         </WindowsFormsHost>
-    </StackPanel>
+    </Grid>
 </UserControl>

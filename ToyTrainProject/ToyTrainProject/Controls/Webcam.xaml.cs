@@ -172,27 +172,51 @@ namespace ToyTrainProject.Controls
             }
         }
 
+        //private void TakePicture()
+        //{
+        //    try
+        //    {
+
+        //        System.Drawing.Point pnlPoint =
+        //            host.VideoPlayer.PointToScreen(
+        //                new System.Drawing.Point(host.VideoPlayer.ClientRectangle.X, host.VideoPlayer.ClientRectangle.Y)); // get the position of the VideoPlayer
+        //        using (var bitmap = new Bitmap(PanelWidth, PanelHeight))
+        //        {
+        //            using (var g = Graphics.FromImage(bitmap))
+        //            {
+        //                // generate the image
+        //                g.CopyFromScreen(
+        //                    pnlPoint, System.Drawing.Point.Empty, new System.Drawing.Size(PanelWidth, PanelHeight));
+        //            }
+
+        //            SnapshotBitmap = new Bitmap(bitmap);
+        //        }
+        //    }
+        //    catch (Exception exception)
+        //    {
+        //        MessageBox.Show(exception.Message);
+        //    }
+        //}
+
         private void TakePicture()
         {
             try
             {
-                const int PanelWidth = 750;
-                const int PanelHeight = 600;
-                string fileName;
+                var playerPoint = new System.Drawing.Point();
 
-                System.Drawing.Point pnlPoint =
-                    host.VideoPlayer.PointToScreen(
-                        new System.Drawing.Point(host.VideoPlayer.ClientRectangle.X, host.VideoPlayer.ClientRectangle.Y)); // get the position of the VideoPlayer
-                using (var bitmap = new Bitmap(PanelWidth, PanelHeight))
+                System.Windows.Point point = this.VideoSourceWindowsFormsHost.PointToScreen(new System.Windows.Point(0, 0));
+
+                playerPoint = new System.Drawing.Point((int)point.X, (int)point.Y);
+
+
+                using (var bitmap = new Bitmap(VideoPlayer.Width, VideoPlayer.Height))
                 {
-                    using (var g = Graphics.FromImage(bitmap))
+                    using (var graphicsFromImage = Graphics.FromImage(bitmap))
                     {
-                        // generate the image
-                        g.CopyFromScreen(
-                            pnlPoint, System.Drawing.Point.Empty, new System.Drawing.Size(PanelWidth, PanelHeight));
+                        graphicsFromImage.CopyFromScreen(playerPoint.X, playerPoint.Y, 0, 0, bitmap.Size, CopyPixelOperation.SourceCopy);
                     }
 
-                    SnapshotBitmap = new Bitmap(bitmap);
+                    this.SnapshotBitmap = new Bitmap(bitmap);
                 }
             }
             catch (Exception exception)
@@ -239,7 +263,7 @@ namespace ToyTrainProject.Controls
                 return;
             }
 
-            videoDevice = new VideoCaptureDevice(cameraString) { DesiredFrameSize = new System.Drawing.Size(640, 480) };
+            videoDevice = new VideoCaptureDevice(cameraString);
             host.VideoPlayer.VideoSource = videoDevice;
             host.VideoPlayer.Start();
         }
