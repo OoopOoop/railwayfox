@@ -12,7 +12,7 @@
     Width="Auto"
     Height="Auto"
     DataContext="{Binding ScanWindowViewModel, Source={StaticResource Locator}}"
-    mc:Ignorable="d">
+    mc:Ignorable="d" d:DesignWidth="1920" d:DesignHeight="1080">
     <Window.Resources>
         <converter:DeviceInfoConverter x:Key="DeviceInfoConverter" />
     </Window.Resources>
