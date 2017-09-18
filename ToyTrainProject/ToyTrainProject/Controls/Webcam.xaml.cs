@@ -183,8 +183,8 @@ namespace ToyTrainProject.Controls
 
                 playerPoint = new System.Drawing.Point((int)point.X, (int)point.Y);
                 
-                //using (var bitmap = new Bitmap(VideoPlayer.Width, VideoPlayer.Height))
-                using (var bitmap = new Bitmap(Convert.ToInt32(ImageWidth), Convert.ToInt32(ImageHeight)))
+                using (var bitmap = new Bitmap(VideoPlayer.Width, VideoPlayer.Height))
+               // using (var bitmap = new Bitmap(Convert.ToInt32(ImageWidth), Convert.ToInt32(ImageHeight)))
                 {
                     using (var graphicsFromImage = Graphics.FromImage(bitmap))
                     {
