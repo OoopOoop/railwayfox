@@ -182,9 +182,9 @@ namespace ToyTrainProject.Controls
                 System.Windows.Point point = this.VideoSourceWindowsFormsHost.PointToScreen(new System.Windows.Point(0, 0));
 
                 playerPoint = new System.Drawing.Point((int)point.X, (int)point.Y);
-
-                //using (var bitmap = new Bitmap(VideoPlayer.Width, VideoPlayer.Height))
-                using (var bitmap = new Bitmap(Convert.ToInt32(ImageWidth), Convert.ToInt32(ImageHeight)))
+                
+                using (var bitmap = new Bitmap(VideoPlayer.Width, VideoPlayer.Height))
+               // using (var bitmap = new Bitmap(Convert.ToInt32(ImageWidth), Convert.ToInt32(ImageHeight)))
                 {
                     using (var graphicsFromImage = Graphics.FromImage(bitmap))
                     {

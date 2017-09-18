@@ -76,7 +76,7 @@
             Grid.Column="1"
             Margin="10"
             VerticalAlignment="Center">
-            <Grid Width="{Binding Source={x:Static settings:AppConfiguration.ImageWidth}}" Height="{Binding Source={x:Static settings:AppConfiguration.ImageHeight}}">
+            <Grid Width="{Binding ImageCaptureWidth}" Height="{Binding ImageCaptureHeight}">
                 <Border BorderBrush="Black" BorderThickness="2">
                     <controls:Webcam
                         x:Name="WebCam"
@@ -110,7 +110,7 @@
             Grid.Column="2"
             Margin="10"
             VerticalAlignment="Center">
-            <Grid Width="{Binding Source={x:Static settings:AppConfiguration.ImageWidth}}" Height="{Binding Source={x:Static settings:AppConfiguration.ImageHeight}}">
+            <Grid Width="{Binding ImageCaptureWidth}" Height="{Binding ImageCaptureHeight}">
                 <Border BorderBrush="Black" BorderThickness="2">
                     <Image Source="{Binding SnapshotImageSource, Mode=TwoWay}" />
                 </Border>

@@ -53,23 +53,24 @@ namespace ToyTrainProject.ViewModels
             }
         }
 
-        //private double _imageCaptureWidth;
-        //public double ImageCaptureWidth
-        //{
-        //    get { return _imageCaptureWidth; }
-        //    set { _imageCaptureWidth = value; OnPropertyChanged(); }
-        //}
+        private double _imageCaptureWidth;
+        public double ImageCaptureWidth
+        {
+            get { return _imageCaptureWidth; }
+            set { _imageCaptureWidth = value; OnPropertyChanged(); }
+        }
 
-        //private double _imageCaptureHeight;
-        //public double ImageCaptureHeight
-        //{
-        //    get { return _imageCaptureHeight; }
-        //    set { _imageCaptureHeight = value; OnPropertyChanged(); }
-        //}
+        private double _imageCaptureHeight;
+        public double ImageCaptureHeight
+        {
+            get { return _imageCaptureHeight; }
+            set { _imageCaptureHeight = value; OnPropertyChanged(); }
+        }
 
         public ScanWindowViewModel()
         {
-          
+            ImageCaptureWidth = 640;
+            ImageCaptureHeight = 480;
         }
 
         protected bool SetField<T>(ref T field, T value, string propertyName)
