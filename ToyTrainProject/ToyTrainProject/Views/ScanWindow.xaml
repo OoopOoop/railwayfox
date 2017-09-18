@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:ToyTrainProject"
         xmlns:converter="clr-namespace:ToyTrainProject.Converters"
         xmlns:controls="clr-namespace:ToyTrainProject.Controls"
+        xmlns:settings="clr-namespace:ToyTrainProject.Shared"
         mc:Ignorable="d"
         Title="ScanWindow"
         Height="Auto" 
@@ -77,10 +78,10 @@
             Grid.RowSpan="3"
             Margin="10"
             VerticalAlignment="Center">
-            <Grid   
-            Width="{Binding ImageCaptureWidth}"
-            Height="{Binding ImageCaptureHeight}">
-            <Border BorderBrush="Black"
+            <Grid
+                Width="{Binding Source={x:Static settings:AppConfiguration.ImageWidth}}"
+                Height="{Binding Source={x:Static settings:AppConfiguration.ImageHeight}}">
+                <Border BorderBrush="Black"
                     BorderThickness="2"> 
                 <controls:Webcam         
                 x:Name="WebCam"
@@ -114,8 +115,8 @@
                     Grid.RowSpan="3"
                     VerticalAlignment="Center">
             <Grid    
-            Width="{Binding ImageCaptureWidth}"
-            Height="{Binding ImageCaptureHeight}">
+                Width="{Binding Source={x:Static settings:AppConfiguration.ImageWidth}}"
+                Height="{Binding Source={x:Static settings:AppConfiguration.ImageHeight}}">
                 <Border BorderBrush="Black"
                     BorderThickness="2">
                 <Image Source="{Binding SnapshotImageSource, Mode=TwoWay}"/>

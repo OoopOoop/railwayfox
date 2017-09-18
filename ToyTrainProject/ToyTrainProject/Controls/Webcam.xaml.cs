@@ -11,6 +11,7 @@ using System.Windows.Input;
 using ToyTrainProject.Models;
 using MessageBox = System.Windows.MessageBox;
 using UserControl = System.Windows.Controls.UserControl;
+using static ToyTrainProject.Shared.AppConfiguration;
 
 namespace ToyTrainProject.Controls
 {
@@ -171,33 +172,7 @@ namespace ToyTrainProject.Controls
                 }
             }
         }
-
-        //private void TakePicture()
-        //{
-        //    try
-        //    {
-
-        //        System.Drawing.Point pnlPoint =
-        //            host.VideoPlayer.PointToScreen(
-        //                new System.Drawing.Point(host.VideoPlayer.ClientRectangle.X, host.VideoPlayer.ClientRectangle.Y)); // get the position of the VideoPlayer
-        //        using (var bitmap = new Bitmap(PanelWidth, PanelHeight))
-        //        {
-        //            using (var g = Graphics.FromImage(bitmap))
-        //            {
-        //                // generate the image
-        //                g.CopyFromScreen(
-        //                    pnlPoint, System.Drawing.Point.Empty, new System.Drawing.Size(PanelWidth, PanelHeight));
-        //            }
-
-        //            SnapshotBitmap = new Bitmap(bitmap);
-        //        }
-        //    }
-        //    catch (Exception exception)
-        //    {
-        //        MessageBox.Show(exception.Message);
-        //    }
-        //}
-
+        
         private void TakePicture()
         {
             try
@@ -207,9 +182,9 @@ namespace ToyTrainProject.Controls
                 System.Windows.Point point = this.VideoSourceWindowsFormsHost.PointToScreen(new System.Windows.Point(0, 0));
 
                 playerPoint = new System.Drawing.Point((int)point.X, (int)point.Y);
-
-
-                using (var bitmap = new Bitmap(VideoPlayer.Width, VideoPlayer.Height))
+                
+                //using (var bitmap = new Bitmap(VideoPlayer.Width, VideoPlayer.Height))
+                using (var bitmap = new Bitmap(Convert.ToInt32(ImageWidth), Convert.ToInt32(ImageHeight)))
                 {
                     using (var graphicsFromImage = Graphics.FromImage(bitmap))
                     {
