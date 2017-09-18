@@ -177,20 +177,13 @@ namespace ToyTrainProject.Controls
         {
             try
             {
-                var playerPoint = new System.Drawing.Point();
-
-                System.Windows.Point point = this.VideoSourceWindowsFormsHost.PointToScreen(new System.Windows.Point(0, 0));
-
-                playerPoint = new System.Drawing.Point((int)point.X, (int)point.Y);
-                
                 using (var bitmap = new Bitmap(VideoPlayer.Width, VideoPlayer.Height))
-               // using (var bitmap = new Bitmap(Convert.ToInt32(ImageWidth), Convert.ToInt32(ImageHeight)))
                 {
-                    using (var graphicsFromImage = Graphics.FromImage(bitmap))
-                    {
-                        graphicsFromImage.CopyFromScreen(playerPoint.X, playerPoint.Y, 0, 0, bitmap.Size, CopyPixelOperation.SourceCopy);
-                    }
-
+                    var captureSize = new Rectangle(0, 0, VideoPlayer.Width, VideoPlayer.Height);
+#if DEBUG
+                    ResponseText += $"{Environment.NewLine} player resolution x:{VideoPlayer.Width} y:{VideoPlayer.Height}";
+#endif
+                    VideoPlayer.DrawToBitmap(bitmap, captureSize);
                     this.SnapshotBitmap = new Bitmap(bitmap);
                 }
             }
