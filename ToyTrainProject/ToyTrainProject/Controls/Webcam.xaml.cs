@@ -180,7 +180,9 @@ namespace ToyTrainProject.Controls
                 using (var bitmap = new Bitmap(VideoPlayer.Width, VideoPlayer.Height))
                 {
                     var captureSize = new Rectangle(0, 0, VideoPlayer.Width, VideoPlayer.Height);
-                    ResponseText += $"{Environment.NewLine} capture resolution x:{VideoPlayer.Width} y:{VideoPlayer.Height}";
+#if DEBUG
+                    ResponseText += $"{Environment.NewLine} player resolution x:{VideoPlayer.Width} y:{VideoPlayer.Height}";
+#endif
                     VideoPlayer.DrawToBitmap(bitmap, captureSize);
                     this.SnapshotBitmap = new Bitmap(bitmap);
                 }
