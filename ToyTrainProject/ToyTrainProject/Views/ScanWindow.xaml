@@ -1,8 +1,9 @@
-﻿<Window
+﻿<Controls:MetroWindow
     x:Class="ToyTrainProject.MainWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="clr-namespace:ToyTrainProject.Controls"
+    xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
     xmlns:converter="clr-namespace:ToyTrainProject.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:ToyTrainProject"
@@ -89,6 +90,7 @@
             </Grid>
 
             <Button
+                Style="{DynamicResource AccentedSquareButtonStyle}"
                 Margin="0 30 0 0"
                 Height="30"
                 Command="{Binding StartAutomaticSnapShotCommand, ElementName=WebCam}"
@@ -110,10 +112,10 @@
                 </Border>
             </Grid>
 
-            <Grid Background="Gray">
-                <Button
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
+            <Grid>
+                <Button Style="{DynamicResource AccentedSquareButtonStyle}"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
                     Command="{Binding TakePictureCommand, ElementName=WebCam}">
                     <StackPanel Orientation="Vertical">
                         <Image
@@ -139,12 +141,13 @@
                 </Border>
             </Grid>
 
-            <Grid Background="Gray">
+            <Grid>
                 <Button
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
+                    Style="{DynamicResource AccentedSquareButtonStyle}"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
                     Command="{Binding SubmitSnapShotCommand}">
-                    <StackPanel Orientation="Vertical">
+                    <StackPanel>
                         <Image
                             Width="100"
                             Height="50"
@@ -158,7 +161,6 @@
 
         <Grid
             Grid.Row="1"
-            Grid.RowSpan="3"
             Grid.Column="0"
             Margin="15 0 10 10">
             <Border BorderBrush="Black" BorderThickness="2">
@@ -166,4 +168,4 @@
             </Border>
         </Grid>
     </Grid>
-</Window>
+</Controls:MetroWindow>
