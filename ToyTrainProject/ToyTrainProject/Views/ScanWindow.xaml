@@ -24,15 +24,15 @@
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
+            <RowDefinition Height="30*" />
+            <RowDefinition Height="70*" />
+          
         </Grid.RowDefinitions>
 
         <StackPanel
             Grid.Row="0"
             Grid.Column="0"
-            Margin="10,20,10,10">
+            Margin="15 30 10 0">
 
             <Grid>
                 <ComboBox
@@ -62,18 +62,44 @@
                 </TextBlock>
             </Grid>
 
+            <Grid Margin="0 30 0 0">
+                <ComboBox x:Name="MethodsComboBox" 
+                          HorizontalAlignment="Stretch"
+                          Height="30"
+                          HorizontalContentAlignment="Center"
+                          VerticalContentAlignment="Center"
+                          ItemsSource="{Binding AnalyseMethodsCollection}" 
+                          DisplayMemberPath="Name" 
+                          SelectedItem="{Binding SelectedMethod}"/>
+                <TextBlock Text="Select API"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           IsHitTestVisible="False">
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Visibility" Value="Hidden"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ElementName=MethodsComboBox,Path=SelectedItem}" Value="{x:Null}">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+            </Grid>
+
             <Button
-                Margin="0,30,0,0"
+                Margin="0 30 0 0"
+                Height="30"
                 Command="{Binding StartAutomaticSnapShotCommand, ElementName=WebCam}"
                 Content="Start" />
         </StackPanel>
 
         <StackPanel
-            Grid.Row="0"
-            Grid.RowSpan="3"
+            Grid.Row="1"
             Grid.Column="1"
-            Margin="10"
-            VerticalAlignment="Center">
+            Margin="10 0 10 0"
+            VerticalAlignment="Top">
             <Grid Width="{Binding ImageCaptureWidth}" Height="{Binding ImageCaptureHeight}">
                 <Border BorderBrush="Black" BorderThickness="2">
                     <controls:Webcam
@@ -103,11 +129,10 @@
 
         <StackPanel
             x:Name="ImgPanel"
-            Grid.Row="0"
-            Grid.RowSpan="3"
+            Grid.Row="1"
             Grid.Column="2"
-            Margin="10"
-            VerticalAlignment="Center">
+            Margin="10 0 15 0"
+            VerticalAlignment="Top">
             <Grid Width="{Binding ImageCaptureWidth}" Height="{Binding ImageCaptureHeight}">
                 <Border BorderBrush="Black" BorderThickness="2">
                     <Image Source="{Binding SnapshotImageSource, Mode=TwoWay}" />
@@ -133,11 +158,11 @@
 
         <Grid
             Grid.Row="1"
-            Grid.RowSpan="2"
+            Grid.RowSpan="3"
             Grid.Column="0"
-            Margin="10">
+            Margin="15 0 10 10">
             <Border BorderBrush="Black" BorderThickness="2">
-                <TextBox Text="{Binding ResponseText}" TextWrapping="Wrap" />
+                <TextBox Text="{Binding ResponseText}" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto"/>
             </Border>
         </Grid>
     </Grid>

@@ -6,7 +6,7 @@ using static ToyTrainProject.Shared.AppConfiguration.ComputerVisionAPI.AnalyzeIm
 
 namespace ToyTrainProject.Models
 {
-    internal class ComputerVision_AnalyseImage : AnalyticsWrapper
+    internal class ComputerVision_AnalyseImage : AnalyticsWrapper, IAnalyseService
     {
         public ComputerVision_AnalyseImage() : base(SubscriptionKey, UriBase, "application/octet-stream")
         {

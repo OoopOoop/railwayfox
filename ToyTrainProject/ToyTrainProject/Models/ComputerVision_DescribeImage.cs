@@ -6,7 +6,7 @@ using static ToyTrainProject.Shared.AppConfiguration.ComputerVisionAPI.DescribeI
 
 namespace ToyTrainProject.Models
 {
-    internal class ComputerVision_DescribeImage : AnalyticsWrapper
+    internal class ComputerVision_DescribeImage : AnalyticsWrapper, IAnalyseService
     {
         public ComputerVision_DescribeImage() : base(SubscriptionKey, UriBase, "application/octet-stream")
         {

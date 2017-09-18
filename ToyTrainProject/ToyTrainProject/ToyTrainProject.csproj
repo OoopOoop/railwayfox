@@ -112,6 +112,8 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Converters\DeviceConverter.cs" />
+    <Compile Include="Models\AnalyseMethod.cs" />
+    <Compile Include="Models\AnalyseMethodsCollection.cs" />
     <Compile Include="Models\AnalyticsWrapper.cs" />
     <Compile Include="Models\ComputerVision_DescribeImage.cs" />
     <Compile Include="Models\ComputerVision_AnalyseImage.cs" />
@@ -132,6 +134,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Models\IAnalyseService.cs" />
     <Compile Include="Shared\AppConfiguration.cs" />
     <Compile Include="ViewModels\ScanWindowViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />

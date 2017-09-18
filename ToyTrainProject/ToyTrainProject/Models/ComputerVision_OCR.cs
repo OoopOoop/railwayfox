@@ -6,7 +6,7 @@ using defaults = ToyTrainProject.Shared.AppConfiguration.ComputerVisionAPI.OCR;
 
 namespace ToyTrainProject.Models
 {
-    internal class ComputerVision_OCR : AnalyticsWrapper
+    internal class ComputerVision_OCR : AnalyticsWrapper, IAnalyseService
     {
         public ComputerVision_OCR() : base(SubscriptionKey, UriBase, "application/octet-stream")
         {
