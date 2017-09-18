@@ -28,6 +28,13 @@ namespace ToyTrainProject.Controls
                 typeof(Webcam),
                 new PropertyMetadata(SnapshotBitmapPropertyChangedCallback));
 
+        public static readonly DependencyProperty ResponseTextProperty =
+            DependencyProperty.Register(
+                "ResponseText",
+                typeof(string),
+                typeof(Webcam),
+                new PropertyMetadata(string.Empty));
+
         public readonly DependencyProperty TakePictureCommandProperty =
             DependencyProperty.Register(
                 "TakePictureCommand",
@@ -35,9 +42,9 @@ namespace ToyTrainProject.Controls
                 typeof(Webcam),
                 new PropertyMetadata(null));
 
-        public readonly DependencyProperty StartMultipleSnapshotProperty =
+        public readonly DependencyProperty StartAutomaticSnapShotProperty =
             DependencyProperty.Register(
-                "StartMultipleSnapshot",
+                "StartAutomaticSnapShotCommand",
                 typeof(ICommand),
                 typeof(Webcam),
                 new PropertyMetadata(null));
@@ -56,27 +63,20 @@ namespace ToyTrainProject.Controls
                 typeof(Webcam),
                 new PropertyMetadata(string.Empty, OnCameraValueChanged, OnCameraCoherceValueChanged));
 
-        public static readonly DependencyProperty SelectedTimeProperty =
-            DependencyProperty.Register(
-                "SelectedTime",
-                typeof(string),
-                typeof(Webcam),
-                new PropertyMetadata(string.Empty));
-
-        public string SelectedTime
+        public string ResponseText
         {
             get
             {
-                return (string)this.GetValue(SelectedTimeProperty);
+                return (string)this.GetValue(ResponseTextProperty);
             }
 
-            set { SetValue(SelectedTimeProperty, value); }
+            set { SetValue(ResponseTextProperty, value); }
         }
 
-        public ICommand StartMultipleSnapshot
+        public ICommand StartAutomaticSnapShotCommand
         {
-            get { return (ICommand)this.GetValue(StartMultipleSnapshotProperty); }
-            set { this.SetValue(StartMultipleSnapshotProperty, value); }
+            get { return (ICommand)this.GetValue(StartAutomaticSnapShotProperty); }
+            set { this.SetValue(StartAutomaticSnapShotProperty, value); }
         }
 
         public ICommand TakePictureCommand
@@ -123,7 +123,7 @@ namespace ToyTrainProject.Controls
         {
             this.InitializeComponent();
             TakePictureCommand = new RelayCommand(TakePicture);
-            StartMultipleSnapshot = new RelayCommand(TakeMultiplePicture);
+            StartAutomaticSnapShotCommand = new RelayCommand(StartAutomaticSnapShot);
             ImagesCollection = new List<Bitmap>();
         }
 
@@ -172,7 +172,7 @@ namespace ToyTrainProject.Controls
                 }
             }
         }
-        
+
         private void TakePicture()
         {
             try
@@ -182,7 +182,7 @@ namespace ToyTrainProject.Controls
                 System.Windows.Point point = this.VideoSourceWindowsFormsHost.PointToScreen(new System.Windows.Point(0, 0));
 
                 playerPoint = new System.Drawing.Point((int)point.X, (int)point.Y);
-                
+
                 //using (var bitmap = new Bitmap(VideoPlayer.Width, VideoPlayer.Height))
                 using (var bitmap = new Bitmap(Convert.ToInt32(ImageWidth), Convert.ToInt32(ImageHeight)))
                 {
@@ -208,26 +208,9 @@ namespace ToyTrainProject.Controls
             set { _imagesCollection = value; }
         }
 
-        private void TakeMultiplePicture()
+        private void StartAutomaticSnapShot()
         {
-            int miliseconds = Convert.ToInt16(SelectedTime) * 1000;
-            SetTimer(miliseconds);
-        }
-
-        private void SetTimer(int interval)
-        {
-            var _timer = new Timer();
-
-            _timer.Interval = interval;
-            _timer.Tick += new EventHandler(_timer_Tick);
-            _timer.Enabled = true;
-            _timer.Start();
-        }
-
-        private void _timer_Tick(object sender, EventArgs e)
-        {
-            TakePicture();
-            ImagesCollection.Add(SnapshotBitmap);
+            ResponseText += $"{Environment.NewLine}StartAutomaticSnapShot not implemented";
         }
 
         private static void InitVideoDevice(string cameraString, Webcam host)

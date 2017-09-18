@@ -64,15 +64,9 @@
                 </TextBlock>
             </Grid>
 
-            <!--<Label Content="Enter time:" HorizontalAlignment="Center"/>
-            <TextBox Text="{Binding SelectedTime, ElementName=WebCam}"/>
-
-            <Label Content="Enter interval:" HorizontalAlignment="Center"/>
-            <TextBox Text="{Binding SelectedTime, ElementName=WebCam}"/>-->
-
             <Button
                 Margin="0,30,0,0"
-                Command="{Binding StartMultipleSnapshot, ElementName=WebCam}"
+                Command="{Binding StartAutomaticSnapShotCommand, ElementName=WebCam}"
                 Content="Start" />
         </StackPanel>
 
@@ -87,6 +81,7 @@
                     <controls:Webcam
                         x:Name="WebCam"
                         CameraId="{Binding SelectedItem, Converter={StaticResource DeviceInfoConverter}, ElementName=CameraIdComboBox}"
+                        ResponseText="{Binding ResponseText, Mode=TwoWay}"
                         SnapshotBitmap="{Binding SnapshotBitmap, Mode=TwoWay}" />
                 </Border>
             </Grid>
