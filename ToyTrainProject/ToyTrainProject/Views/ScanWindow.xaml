@@ -86,6 +86,7 @@
                 x:Name="WebCam"
                 Grid.Row="1"
                 SnapshotBitmap="{Binding SnapshotBitmap, Mode=TwoWay}" 
+                PointToScreen="{Binding PointToScreen, Mode=TwoWay}"
                 CameraId="{Binding SelectedItem, Converter={StaticResource DeviceInfoConverter},
                 ElementName=CameraIdComboBox}"/>
                 </Grid>
@@ -95,7 +96,7 @@
                 <Button
                     Width="150"
                     Height="50"
-            Command="{Binding TakePictureCommand, ElementName=WebCam}"
+            Command="{Binding TakePictureCommand}"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center">
                     <StackPanel Orientation="Vertical">

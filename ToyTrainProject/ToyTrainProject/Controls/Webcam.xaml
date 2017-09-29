@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ToyTrainProject"
              xmlns:aforge="clr-namespace:AForge.Controls;assembly=AForge.Controls"
-             mc:Ignorable="d">
+             mc:Ignorable="d" Loaded="Webcam_OnLoaded">
     <StackPanel>
         <WindowsFormsHost  Name="WinFormHost" 
                            Background="{x:Null}"
